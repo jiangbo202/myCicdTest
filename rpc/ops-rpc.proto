@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package ops;
+option go_package = "./ops";
+
+message GetWhoReq{}
+
+message GetWhoReply{
+  string msg = 1;
+}
+
+service user {
+  rpc getWho(GetWhoReq) returns(GetWhoReply);
+}

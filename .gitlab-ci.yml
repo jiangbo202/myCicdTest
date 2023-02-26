@@ -1,0 +1,45 @@
+variables:
+  VERSION: v1.0.1
+  REPO: docker.io
+
+stages:
+  - info
+  - build
+  - deploy
+  - clean
+
+# 定义需要缓存的目录
+#cache:
+#  paths:
+#    - target
+
+info-job:
+  stage: info
+  script:
+    - echo "Start build version $VERSION"
+    - export VERSION=$VERSION
+    - export DOCKER_USERNAME=$DOCKER_USERNAME
+    - export DOCKER_PASSWORD=$DOCKER_PASSWORD
+    - export REPO=$REPO
+
+build-job:
+  stage: build
+  script:
+    - echo "Compiling the code and build docker image..."
+    - make docker-build
+    - echo "Compile complete."
+
+deploy-job:
+  stage: deploy
+  environment: production
+  script:
+    - echo "Publish docker images..."
+    - make docker-publish
+    - echo "Docker images successfully published."
+
+clean-job:
+  stage: clean
+  script:
+    # 删除所有 none 镜像 | delete all none images
+    - docker images |grep none|awk '{print $3}'|xargs docker rmi
+    - echo "Delete all none images successfully."

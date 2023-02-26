@@ -1,0 +1,14 @@
+Name: ops-api
+Host: 0.0.0.0
+Port: 8888
+
+#MyRpc:
+#  Endpoints:
+#    - 192.168.124.7:9001
+MyRpc:
+  Target: k8s://my-cicd/ops-rpc-svc:9001
+
+#  Etcd:
+#    Hosts:
+#      - 127.0.0.1:2379
+#    Key: user.rpc
